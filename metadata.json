@@ -1,0 +1,6 @@
+{
+  "name": "MONTU",
+  "description": "AI-guided nuclear energy intelligence for reactor safety, radiation control, and clean power distribution.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
