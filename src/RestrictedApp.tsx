@@ -10,6 +10,7 @@ interface Stats { unitsTracked: number; operationalUnits: number; totalOperation
 
 const inputCls = "w-full bg-zinc-900 border border-zinc-700 px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:border-emerald-500 rounded-none";
 const btnCls = "px-4 py-2 text-xs font-mono font-bold uppercase tracking-widest border bg-emerald-500 text-zinc-950 border-emerald-500 hover:bg-emerald-400 disabled:opacity-40 rounded-none";
+const API_BASE = (import.meta as any).env?.VITE_API_BASE_URL || "";
 
 export default function RestrictedApp() {
   const [token, setToken] = useState<string | null>(localStorage.getItem("montu_token"));
@@ -36,7 +37,7 @@ export default function RestrictedApp() {
     e.preventDefault();
     setBusy(true); setLoginError(null);
     try {
-      const res = await fetch("/api/auth/login", {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
@@ -51,7 +52,7 @@ export default function RestrictedApp() {
 
   const fetchFleet = async (t: string) => {
     try {
-      const res = await fetch("/api/v1/fleet", { headers: { Authorization: `Bearer ${t}` } });
+      const res = await fetch(`${API_BASE}/api/v1/fleet`, { headers: { Authorization: `Bearer ${t}` } });
       const j = await res.json();
       if (!res.ok) throw new Error(j.error || "Failed to load fleet");
       setFleet(j);
@@ -62,7 +63,7 @@ export default function RestrictedApp() {
     if (!token) return;
     setBusy(true);
     try {
-      const res = await fetch("/api/v1/simulate", {
+      const res = await fetch(`${API_BASE}/api/v1/simulate`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ controlRodDepthPct: rod, powerDemandMWe: demand, netCapacityMWe: capacity }),
